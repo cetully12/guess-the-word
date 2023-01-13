@@ -1,4 +1,4 @@
-const guessedLetters = document.querySelector(".guessed-letters");
+const guessedLettersElement = document.querySelector(".guessed-letters");
 const guessButton = document.querySelector(".guess");
 const guessInput = document.querySelector(".letter");
 const wordProgress = document.querySelector(".word-in-progress");
@@ -8,7 +8,9 @@ const message = document.querySelector(".message");
 const playAgain = document.querySelector(".play-again");
 
 const word = "magnolia";
+const guessedLetters = [];
 
+// Display symbols for blanks as players guess the word
 const placeholder = function (word) {
     const placeholderBlanks = [];
     for (const letter of word) {
@@ -22,8 +24,14 @@ placeholder(word);
 
 guessButton.addEventListener("click", function(e) {
     e.preventDefault();
-    const letterGuessed = guessInput.value;
-    console.log(letterGuessed);
+    // Empty message paragaph
+    message.innerText = "";
+    const guess = guessInput.value;
+    const correctGuess = guessValidation(guess);
+
+    if (correctGuess) {
+        makeGuess(guess);
+    }
     guessInput.value = "";
 });
 
@@ -40,5 +48,15 @@ const guessValidation = function (input) {
         message.innerText = "Please enter a letter from A to Z";   
     } else {
         return input;
+    }
+};
+
+const makeGuess = function (guess) {
+    guess = guess.toUpperCase();
+    if (guessedLetters.includes(guess)) {
+        message.innerText = "Already guessed! Try again."
+    } else {
+        guessedLetters.push(guess);
+        console.log(guessedLetters);
     }
 };
