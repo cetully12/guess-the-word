@@ -21,14 +21,11 @@ const getWord = async function () {
     placeholder(word);
 };
 
-// Play the game
 getWord();
 
-// Display symbols for blanks as players guess the word
 const placeholder = function (word) {
     const placeholderBlanks = [];
     for (const letter of word) {
-        //console.log(letter);
         placeholderBlanks.push("●");
     }
     wordProgress.innerText = placeholderBlanks.join("");
@@ -36,7 +33,6 @@ const placeholder = function (word) {
 
 guessButton.addEventListener("click", function(e) {
     e.preventDefault();
-    // Empty message paragaph
     message.innerText = "";
     const guess = guessInput.value;
     const correctGuess = guessValidation(guess);
@@ -50,13 +46,10 @@ guessButton.addEventListener("click", function(e) {
 const guessValidation = function (input) {
     const acceptedLetter = /[a-zA-Z]/;
     if (input.length === 0) {
-        // If a player guesses a blank input
         message.innerText = "Please enter a letter";
     } else if (input.length > 1) {
-        // If a player guesses more than one letter
         message.innerText = "Please enter one letter at a time";
     } else if (!input.match(acceptedLetter)) {
-        // If a player guesses a character or number
         message.innerText = "Please enter a letter from A to Z";   
     } else {
         return input;
@@ -77,9 +70,7 @@ const makeGuess = function (guess) {
 
 };
 
-// Display guessed letters on screen
 const updateLettersGuessed = function () {
-    // Clear list
     guessedLettersElement.innerHTML = "";
     for (const letter of guessedLetters) {
         const li = document.createElement("li");
@@ -88,7 +79,6 @@ const updateLettersGuessed = function () {
     }
 };
 
-// Update word progress when player correctly guesses
 const updateWordProgress = function (guessedLetters) {
     const wordUpper = word.toUpperCase();
     const wordArray = wordUpper.split("");
@@ -100,7 +90,6 @@ const updateWordProgress = function (guessedLetters) {
             revealWord.push("●");
         }
     }
-    //console.log(revealWord);
     wordProgress.innerText = revealWord.join("");
     checkIfWin();
 };
@@ -117,13 +106,12 @@ const updateGuessesRemaining = function (guess) {
     if (remainingGuesses === 0) {
         message.innerHTML = `Womp! Game over. The word is <span class="highlight">${word}</span>.`;
     } else if (remainingGuesses === 1) {
-        remainingGuessesSpan.innerText = `only ${remainingGuesses} guess!`;
+        remainingGuessesSpan.innerText = `only ${remainingGuesses} guess`;
     } else {
         remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
     }
 };
 
-// Check if player won the game!
 const checkIfWin = function () {
     if (word.toUpperCase() === wordProgress.innerText) {
         message.classList.add("win");
@@ -141,7 +129,6 @@ const startOver = function () {
 };
 
 playAgain.addEventListener("click", function () {
-    // Reset and fetch new word
     message.classList.remove("win");
     guessedLetters = [];
     remainingGuesses = 8;
