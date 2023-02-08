@@ -7,7 +7,6 @@ const remainingGuessesSpan = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 const playAgain = document.querySelector(".play-again");
 
-// Global
 let word = "magnolia";
 let guessedLetters = [];
 let remainingGuesses = 8;
@@ -31,7 +30,7 @@ const placeholder = function (word) {
     wordProgress.innerText = placeholderBlanks.join("");
 };
 
-guessButton.addEventListener("click", function(e) {
+guessButton.addEventListener("click", function (e) {
     e.preventDefault();
     message.innerText = "";
     const guess = guessInput.value;
@@ -64,13 +63,13 @@ const makeGuess = function (guess) {
         guessedLetters.push(guess);
         console.log(guessedLetters);
         updateGuessesRemaining(guess);
-        updateLettersGuessed();
+        showLettersGuessed();
         updateWordProgress(guessedLetters);
     }
 
 };
 
-const updateLettersGuessed = function () {
+const showLettersGuessed = function () {
     guessedLettersElement.innerHTML = "";
     for (const letter of guessedLetters) {
         const li = document.createElement("li");
@@ -104,9 +103,10 @@ const updateGuessesRemaining = function (guess) {
     }
 
     if (remainingGuesses === 0) {
-        message.innerHTML = `Womp! Game over. The word is <span class="highlight">${word}</span>.`;
+        message.innerHTML = `Game over. The word is <span class="highlight">${word}</span>.`;
+        startOver();
     } else if (remainingGuesses === 1) {
-        remainingGuessesSpan.innerText = `only ${remainingGuesses} guess`;
+        remainingGuessesSpan.innerText = `${remainingGuesses} guess`;
     } else {
         remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
     }
@@ -139,6 +139,6 @@ playAgain.addEventListener("click", function () {
 
     guessButton.classList.remove("hide");
     playAgain.classList.add("hide");
-    remainingElement.remove("hide");
+    remainingElement.classList.remove("hide");
     guessedLettersElement.classList.remove("hide");
 });
